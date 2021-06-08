@@ -2,7 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-  res.send('Got a GET request at /users');
+  res.json([
+    { id: 1, username: 'first-person' },
+    { id: 2, username: 'second-person' },
+  ]);
 });
 
 router.post('/', function (req, res) {
