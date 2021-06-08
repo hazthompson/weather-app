@@ -1,11 +1,10 @@
 var express = require('express');
 var router = express.Router();
+let users = require('./services/users');
 
-router.get('/', function (req, res) {
-  res.json([
-    { id: 1, username: 'first-person' },
-    { id: 2, username: 'second-person' },
-  ]);
+router.get('/', async function (req, res) {
+  const allUsers = await users.getAll();
+  res.json(allUsers);
 });
 
 router.post('/', function (req, res) {
