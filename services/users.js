@@ -1,7 +1,7 @@
-let db = require('./db');
+let db = require('../utils/db');
 
 async function getById(id) {
-  let conn = await db.connect();
+  let conn = db.connect();
   let user = conn.query('SELECT * FROM users WHERE id = ?', [id]);
 
   if (!user) {
@@ -12,8 +12,18 @@ async function getById(id) {
 }
 
 async function getAll() {
-  let conn = await db.connect();
+  let conn = db.connect();
   let users = conn.query('SELECT * FROM users');
+
+  return users;
+}
+
+async function createUser({ firstName, lastName }) {
+  let conn = await db.connect();
+  await conn.query(`
+    INSERT INTO users (first_name, last_name) VALUES (${firstName}, ${lastName});
+  `);
+  conn.end();
 
   return users;
 }

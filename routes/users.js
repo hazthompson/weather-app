@@ -1,14 +1,21 @@
 var express = require('express');
 var router = express.Router();
-let users = require('./services/users');
+const User = require('../models/User');
 
 router.get('/', async function (req, res) {
-  const allUsers = await users.getAll();
-  res.json(allUsers);
+  const users = await User.findAll();
+  res.json(users);
 });
 
-router.post('/', function (req, res) {
-  res.send('Got a POST request at /users');
+router.post('/', async function (req, res) {
+  const { firstName, lastName } = req.body;
+
+  if (!firstName) {
+    res.json({ error: 'Please provide a firstName.' });
+  } else {
+    await User.create({ firstName, lastName });
+    res.status(201).end();
+  }
 });
 
 router.put('/', function (req, res) {
